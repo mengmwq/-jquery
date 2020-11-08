@@ -1,0 +1,68 @@
+@media screen and (min-width:1921px){
+	/* 高分辨的大屏 */
+	.map_box{
+		height: 450px;
+	}
+}
+@media screen and (min-width:1680px) and (max-width:1900px){
+	.totalMoney .number-animate{
+		font-size: 50px;
+	}
+	.totalMoney .number-animate-dom{
+		width: 60px;
+	}
+	.money{
+		width: 60px;
+	}
+}
+@media screen and (min-width:1600px) and (max-width:1679px){
+	.totalMoney .number-animate{
+		font-size: 40px;
+	}
+	.totalMoney .number-animate-dom{
+		width: 50px;
+	}
+	.money{
+		width: 50px;
+	}
+}
+
+@media screen and (min-width:1440px) and (max-width:1599px){
+	.totalMoney .number-animate{
+		font-size: 38px;
+	}
+	.totalMoney .number-animate-dom{
+		width: 48px;
+	}
+	.money{
+		width: 48px;
+	}
+	/*笔记本最佳分辨率1440*900 笔记本的实际高度只有770px;*/
+}
+
+@media screen and (min-width:1366px) and (max-width:1439px){
+    .totalMoney .number-animate{
+    	font-size: 38px;
+    }
+    .totalMoney .number-animate-dom{
+    	width: 48px;
+    }
+    .money{
+    	width: 48px;
+    }
+	/*笔记本最佳分辨率1366*768 笔记本的实际高度只有630px;*/
+}
+
+@media screen and (max-width: 1365px){
+	.totalMoney .number-animate{
+		font-size: 35px;
+	}
+	.totalMoney .number-animate-dom{
+		width: 45px;
+	}
+	.money{
+		width: 45px;
+	}
+	/*笔记本最佳分辨率1280*800  笔记本的实际高度只有670px;*/
+}
+

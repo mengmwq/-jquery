@@ -1,0 +1,16 @@
+@charset "utf-8";
+/*reset begin*/
+*{padding:0;margin:0;}
+body{font-family:'Microsoft YaHei','宋体','sans-serif';}
+a{text-decoration:none;}
+a:link,a:active,a:visited,a:hover{text-decoration:none;} 
+img{border:none;vertical-align:top;}
+textarea{resize:none;overflow:auto;}
+em,i,b{font-style:normal}
+h1,h2,h3,h4,h5,h6{font-weight:normal;}
+li{list-style:none}
+input{ padding:0; border:none 0; outline:none; background:none;font-family:'Microsoft YaHei','宋体','sans-serif';}
+table{ border-collapse:collapse;text-align:center; vertical-align:middle;}
+.clearFix{zoom:1;}
+.clearFix:after{display:block;content:"";clear:both;}
+/*reset end*/

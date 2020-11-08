@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <meta http-equiv="refresh" content="14400"> -->
+	<title>商品销售数据后台</title>
+	<link id="icoLink" rel="shortcut icon" href="images/tit.ico" type="image/x-icon">
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<link rel="stylesheet" href="css/flipclock.css">
+	<link rel="stylesheet" href="css/Odometer.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/media.css">
+
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/swiper.min.js"></script>
+	<script type="text/javascript" src="js/echarts.min.js"></script>
+	<script type="text/javascript" src="js/flipclock.min.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
+	<script type="text/javascript" src="js/jquery.countup.js"></script>
+	<!-- <script type="text/javascript" src="mapdata/china.js"></script> -->
+	<script type="text/javascript" src="mapdata/china_data.js"></script>
+	<script type="text/javascript" src="js/Odometer.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</head>
+<body>
+	<div class="wrap">
+		<div class="hd" id="hder">
+			<img src="images/hd_logo.png" alt="">
+			<div class="clock"></div>
+		</div>
+		<div class="content clearFix">
+			<div class="cont_left">
+				<div class="swiper-container set_line" id="swiperA">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div class="left_swiper">
+								<div class="titTxt clearFix">
+									<i></i>
+									<span>客户增长趋势图（五日）</span>
+								</div>
+								<div class="echart_one" id="echartOne"></div>
+								<div class="loading" id="loadA">
+									<img src="images/loading.gif" alt="">
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="left_swiper">
+								<div class="titTxt clearFix">
+									<i></i>
+									<span>客单金额趋势图（五日）</span>
+								</div>
+								<div class="echart_one" id="echartThree"></div>
+								<div class="loading" id="loadD">
+									<img src="images/loading.gif" alt="">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+				<div class="left_ups" >
+					<div class="titTxt clearFix">
+						<i></i>
+						<span>流量概况（今日）</span>
+					</div>
+					<div class="flow">
+						<div class="one clearFix">
+							<div class="one_L">
+								<p>访客数UV</p>
+								<div id="UV" class="set_font">0</div>
+							</div>
+							<div class="one_R">
+								<p>浏览器PV</p>
+								<div id="PV"  class="set_font">0</div>
+							</div>
+						</div>
+						<div class="one two clearFix">
+							<div class="one_L">
+								<p>下单转化率</p>
+								<div class="set_an">
+									<div id="gVisitor" class="set_font">0</div>
+									<div class="percent">%</div>
+								</div>
+							</div>
+							<div class="one_R">
+								<p>付款转化率</p>
+								<div class="set_an">
+									<div id="gFlow" class="set_font">0</div>
+									<div class="percent">%</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cont_center">
+				<div class="number_k">
+					<div class="number_box clearFix" id="numbersBtn">
+						<div class="money">
+							<img src="images/money.png" alt="">
+						</div>
+						<div class="totalMoney" id="totalMoney"></div>
+					</div>
+				</div>
+				<div class="day_visitor">
+					<span>今日访客人数：</span>
+					<div id="vistorNumber" class="set_font">0</div>
+				</div>
+				<div class="circle">
+					<div class="one">
+						<div class="order_c">
+							<div class="order_cl">
+								<img src="images/cirle.png" alt="">
+								<span>下单笔数</span>
+							</div>
+							<div class="cir_or">
+								<div id="workNo" class="set_font">0</div>
+								<i>单</i>
+							</div>
+						</div>
+						<div class="order_c">
+							<div class="order_cl">
+								<img src="images/cirle.png" alt="">
+								<span>打包数量</span>
+							</div>
+							<div class="cir_or">
+								<div id="packNo" class="set_font">0</div>
+								<i>件</i>
+							</div>
+						</div>
+					</div>
+					<div class="one">
+						<div class="order_c">
+							<div class="order_cl">
+								<img src="images/cirle.png" alt="">
+								<span>购买人数</span>
+							</div>
+							<div class="cir_or">
+								<div id="buyNo" class="set_font">0</div>
+								<i>人</i>
+							</div>
+						</div>
+						<div class="order_c">
+							<div class="order_cl">
+								<img src="images/cirle.png" alt="">
+								<span>注册会员</span>
+							</div>
+							<div class="cir_or">
+								<div id="regNo" class="set_font">0</div>
+								<i>人</i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="map_box" id="mapBox">
+					<div class="china_map" id="chinaMap"></div>
+					<div class="prov_rank">
+						
+					</div>
+				</div>
+			</div>
+			<div class="cont_right">
+				<div class="swiper-container set_line" id="swiperB">
+				  <div class="swiper-wrapper">
+				    <div class="swiper-slide">
+						<div class="right_up">
+							<div class="titTxt clearFix">
+								<i></i>
+								<span>交易趋势走向图（五日）</span>
+							</div>
+							<div class="echart_one" id="echartTwo"></div>
+							<div class="loading" id="loadB">
+								<img src="images/loading.gif" alt="">
+							</div>
+						</div>
+					</div>
+				    <div class="swiper-slide">
+						<div class="left_up">
+							<div class="titTxt clearFix">
+								<i></i>
+								<span>交易概况（今日）</span>
+							</div>
+							<div class="flow">
+								<div class="one clearFix">
+									<div class="one_L">
+										<p>下单笔数</p>
+										<div id="orderNumber" class="set_font">0</div>
+									</div>
+									<div class="one_R">
+										<p>下单金额</p>
+										<div id="orderMoney" class="set_font">0</div>
+									</div>
+								</div>
+								<div class="one two clearFix">
+									<div class="one_L">
+										<p>付款订单数</p>
+										<div id="payNumber" class="set_font">0</div>
+									</div>
+									<div class="one_R">
+										<p>付款金额</p>
+										<div id="payMoney" class="set_font">0</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				  </div>
+				  <div class="swiper-pagination"></div>
+				</div>
+				<div class="list">
+					<div class="titTxt clearFix">
+						<i></i>
+						<span>商品销量排行榜(今日)</span>
+					</div>
+					<div class="list_hd clearFix">
+						<span style="width: 10%;">序号</span>
+						<span style="width: 24%;">商品名称</span>
+						<span style="width: 22%;">下单笔数</span>
+						<span style="width: 22%;">下单金额</span>
+						<span style="width: 22%;">下单件数</span>
+					</div>
+					<div class="list_cont">
+						<div class="list_animate" id="listAnimate">
+							<!-- <div class="list_tr clearFix">
+								<span style="width: 10%;" class="first"></span>
+								<span style="width: 30%;">雅施莱丹50ml</span>
+								<span style="width: 20%;">100</span>
+								<span style="width: 20%;">￥348757</span>
+								<span style="width: 20%;">1000</span>
+							</div> -->
+						</div>
+						<div class="loading" id="loadC">
+							<img src="images/loading.gif" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="shadow" id="shadow"></div>
+	<div class="tip" id="tipBox">
+		<div class="tip_hd">温馨提示</div>
+		<div class="tip_content">登录失效，请重新登录！</div>
+		<div class="tip_ft" onclick="navTo()">确定</div>
+	</div>
+</body>
+</html>
+<script>
+	//跳转至登录页
+	function navTo(){
+		window.location.href='./login.html';
+	}
+	clock = $('.clock').FlipClock({
+		clockFace: 'TwentyFourHourClock',
+		autoStart: true,
+		callbacks: {
+			stop: function() {
+				
+			}
+		}
+	});
+</script>

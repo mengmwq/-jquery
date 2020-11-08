@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>登录</title>
+	<link id="icoLink" rel="shortcut icon" href="images/tit.ico" type="image/x-icon">
+	<link rel="stylesheet" href="css/base.css">
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<style>
+		html,body{height: 100%;min-height: 800px;}
+		.box_bg{
+			height: 100%;
+			background: url(images/logo/bg.png) no-repeat center center;
+			background-size: 100% 100%;
+			display: -webkit-box; 
+			display: -moz-box; 
+			display: -ms-flexbox; 
+			display: -webkit-flex; 
+			display: flex;
+			-webkit-box-pack: center;
+			-moz-justify-content: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+			-webkit-box-align: center;
+			-moz-align-items: center;
+			-webkit-align-items: center;
+			align-items: center;
+		}
+		.box{
+			width: 1200px;
+			height: 700px;
+		}
+		.box_L{
+			background: url(images/logo/content.png) no-repeat center center;
+			background-size: 100% 100%;
+			width: 600px;
+			float: left;
+			height: 100%;
+		}
+		.box_R{
+			float: left;
+			height: 100%;
+			width: 600px;
+			background-color: #293b59;
+		}
+		.box_R .inp{
+			border: 1px solid #7f899b;
+			height: 60px;
+			line-height: 60px;
+			width: 450px;
+			margin: 26px auto 0 auto;
+			border-radius: 15px;
+			display: -webkit-box;
+			display: -moz-box; 
+			display: -ms-flexbox; 
+			display: -webkit-flex; 
+			display: flex;
+			-webkit-box-align: center;
+			-moz-align-items: center;
+			-webkit-align-items: center;
+			align-items: center;
+			position: relative;
+		}
+		.inp input{
+			font-size: 16px;
+			color: #fff;
+		}
+		.box_R .inp img{
+			margin:0 15px 0 20px;
+		}
+		.box_R .btn{
+			text-align: center;
+			cursor:pointer;
+			justify-content: center;
+			background-color: #3e86ff;
+			color:#fff;
+			font-size: 18px;
+			border:none;
+			margin-top: 50px;
+		}
+		.login{
+			padding:10px;
+		}
+		.logo_tit{
+			text-align: center;
+			color:#d4d8de;
+			margin-bottom: 80px;
+		}
+		.logo_tit p{
+			font-size: 24px;
+			height: 50px;
+			line-height: 50px;
+		}
+		.logo_tit div{
+			font-size: 42px;
+		}
+		.tip{
+			position: absolute;
+			left:0;
+			top:-50px;
+			color:red;
+			font-size: 14px;
+		}
+	</style>
+</head>
+<body>
+	<div class="box_bg">
+		<div class="box clearFix">
+			<div class="box_L"></div>
+			<div class="box_R">
+				<img src="images/logo/logo.png" alt="" class="login">
+				<div class="logo_tit">
+					<p>cdf会员购北京</p>
+					<div>可视化数据平台</div>
+				</div>
+				<div class="inp">
+					<div class="tip" id="tip"></div>
+					<img src="images/logo/user.png" alt="">
+					<input type="text" placeholder="请输入用户名" id="userName">
+				</div>
+				<div class="inp">
+					<img src="images/logo/lock.png" alt="">
+					<input type="password" placeholder="请输入用户密码" id="pwd">
+				</div>
+				<div class="inp btn" onclick="login()">
+					登录
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
+<script>
+	function login(){
+		var userName=$('#userName').val().trim();
+		var pwd=$('#pwd').val().trim();
+		$('#tip').text('');
+		$.ajax({
+			url: "http://101.201.181.1:9999/user/login",
+			//url: "http://192.168.2.172:9999/user/login",
+			data: {
+				userName:userName,
+				pwd:pwd
+			},
+			type: "POST",
+			dataType: "json",
+			success: function(data) {
+			   if(data.code==200){
+				   window.location.href='./index.html';
+				   sessionStorage.setItem('ktoken',data.token);
+			   }else{
+				   $('#tip').text(data.message);
+			   }
+			}
+		});
+	}
+	
+</script>
