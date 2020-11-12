@@ -1,4 +1,22 @@
-var mapChart=null,oneChart=null,twoChart=null,threeChart=null;
+//时间格式化
+Date.prototype.Format = function (fmt) {
+	//var time1 = new Date().Format("yyyy-MM-dd");
+	//var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
+    var o = {
+        "M+": this.getMonth() + 1, // 月份
+        "d+": this.getDate(), // 日
+        "h+": this.getHours(), // 小时
+        "m+": this.getMinutes(), // 分
+        "s+": this.getSeconds(), // 秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+        "S": this.getMilliseconds() // 毫秒
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+}
 //获取客户统计
 function getCustomerStatistics(dataX,dataY){
 	var oneOption = {
@@ -67,7 +85,7 @@ function getCustomerStatistics(dataX,dataY){
 			}
 		]
 	};
-	oneChart = echarts.init($('#echartOne')[0]);
+	var oneChart = echarts.init($('#echartOne')[0]);
 	oneChart.clear();
 	oneChart.setOption(oneOption);
 	$(window).on('resize', function (){
@@ -172,7 +190,7 @@ function guestStatistics(dataX,dataY){
 			}
 		]
 	};
-	threeChart = echarts.init($('#echartThree')[0]);
+	var threeChart = echarts.init($('#echartThree')[0]);
 	threeChart.clear();
 	threeChart.setOption(threeOption);
 	$(window).on('resize', function (){
@@ -190,6 +208,7 @@ function getTradeStatistics(dataX,dataY1,dataY2){
 			trigger: 'axis'
 		},
 		legend: {
+			show:true,
 			data: [{
 				name:'下单笔数 (笔)',
 				textStyle:{
@@ -248,7 +267,7 @@ function getTradeStatistics(dataX,dataY1,dataY2){
 					show:false
 				},
 				nameTextStyle:{
-					color:"#fff"
+					color:"#cd4191"
 				},
 				splitLine: {
 					show: true,
@@ -271,7 +290,7 @@ function getTradeStatistics(dataX,dataY1,dataY2){
 					show:false
 				},
 				nameTextStyle:{
-					color:"#fff"
+					color:"#5085bf"
 				},
 				splitLine: {
 					show: true,
@@ -326,7 +345,7 @@ function getTradeStatistics(dataX,dataY1,dataY2){
 			}
 		]
 	};
-	twoChart = echarts.init($('#echartTwo')[0]);
+	var twoChart = echarts.init($('#echartTwo')[0]);
 	twoChart.clear();
 	twoChart.setOption(twoOption);
 	$(window).on('resize', function (){
@@ -342,8 +361,8 @@ function GetRandomNum(Min,Max){
 }   
 
 //设置数字翻转
-var timerNumber=null,moneysA=0,odoNum=null,numsB=0;
-function setNumberAnimate(moneys){
+var timerNumber=null,moneysA=0,numsB=0;
+function setNumberAnimate(moneys,odoNum){
 	if(moneysA==moneys){
 		if(numsB==moneys){
 			odoNum.update(moneys);
@@ -352,7 +371,7 @@ function setNumberAnimate(moneys){
 	}else{
 		clearInterval(timerNumber);
 		moneysA=moneys;
-		//拿出1000元做动画
+		//拿出200元做动画
 		var _moneys=moneys-200;
 		odoNum.update(_moneys);
 		var stepNum=0;
@@ -428,18 +447,18 @@ function setMenuHeight(){
 			$('#echartTwo').height(300);
 			$('#echartThree').height(300);
 		}
-		if(oneChart){
-			oneChart.resize();
-		}
-		if(twoChart){
-			twoChart.resize();
-		}
-		if(threeChart){
-			threeChart.resize();
-		}
-		if(mapChart){
-			mapChart.resize();
-		}
+		// if(oneChart){
+		// 	oneChart.resize();
+		// }
+		// if(twoChart){
+		// 	twoChart.resize();
+		// }
+		// if(threeChart){
+		// 	threeChart.resize();
+		// }
+		// if(mapChart){
+		// 	mapChart.resize();
+		// }
 	});
 }
 //数字动画
@@ -460,7 +479,7 @@ function numAnimatets(obj,num){
 //长链接WebSocket
 function connect(token,fnc) {
 	var url='ws://101.201.181.1:9999/big-screen-server/'+token;
-	//var url='ws://192.168.2.172:9999/big-screen-server/'+token;
+	//var url='ws://192.168.1.156:9999/big-screen-server/'+token;
 	$('#loadA').show();
 	$('#loadB').show();
 	$('#loadC').show();
@@ -481,11 +500,19 @@ function connect(token,fnc) {
 	  }, 1000);
 	});
 }
-var objUV=null,objPV=null,objVisitor=null,objFlow=null,objVist=null;
-var objWork=null,objPack=null,objBuy=null,objReg=null;
+
 $(function(){
+	//数值动画对象
+	var objUV=null,objPV=null,objVisitor=null,objFlow=null,objVist=null;
+	var objWork=null,objPack=null,objBuy=null,objReg=null;
 	//登录获取token
 	var kToken=sessionStorage.getItem('ktoken');
+	
+	//时间滚动
+	var clock = $('.clock').FlipClock({
+		clockFace: 'TwentyFourHourClock',
+		autoStart: true
+	});
 	if(kToken){
 		$('#tipBox').hide();
 		$('#shadow').hide();
@@ -508,7 +535,7 @@ $(function(){
 		}else{
 			var numM=0;
 		}
-		odoNum = new Odometer('#totalMoney',{
+		var odoNum = new Odometer('#totalMoney',{
 			num : numM
 		});
 		
@@ -545,147 +572,201 @@ $(function(){
 			num : 0
 		});
 		
+		// var setTimer=setInterval(function(){
+		// 	//现在时间戳
+		// 	var nowNum=new Date().getTime();
+		// 	//目标时间戳
+		// 	var targetTimer=new Date('2020-11-12 09:53:58');
+		// 	var targetNum=targetTimer.getTime();
+		// 	if(nowNum>=targetNum){
+		// 		//停止程序
+		// 		clearInterval(setTimer);
+		// 		changeBtn=false;
+		// 		swiperA.stopAutoplay();
+		// 		swiperB.stopAutoplay();
+		// 		//停页面上的钟表,重置时间
+		// 		clock.setTime(targetTimer);
+		// 		clock.stop();
+		// 		//重启链接
+		// 		setTimeout(function(){
+		// 			changeBtn=true;
+		// 			clock.loadClockFace('TwentyFourHourClock', {
+		// 			    autoStart: true
+		// 			});
+		// 			swiperA.startAutoplay();
+		// 			swiperB.startAutoplay();
+		// 		},1000*10);
+		// 	}else{
+				
+		// 	}
+		// },1000);
+		var changeBtn=true;//控制停屏
 		connect(kToken,function(data){
 			//console.log(data)
 			var dataJson=JSON.parse(data);
 			if(dataJson.code){
 				//console.log(dataJson)
-				switch(dataJson.code){
-					case 'TASK-1':
-						//获取订单金额
-						var totalMoney=dataJson.data.price;
-						sessionStorage.setItem('total_money',totalMoney);
-						setNumberAnimate(totalMoney);
-						break;
-					case 'TASK-2':
-						//获取下单笔数
-						//numAnimate('workNo',dataJson.data.orderCount);
-						numAnimatets(objWork,dataJson.data.orderCount);
-						break;
-					case 'TASK-3':
-						//获取打包数量
-						//numAnimate('packNo',dataJson.data);objPack
-						numAnimatets(objPack,dataJson.data);
-						break;
-					case 'TASK-4':
-						//获取购买人数
-						//numAnimate('buyNo',dataJson.data);
-						numAnimatets(objBuy,dataJson.data);
-						break;
-					case 'TASK-5':
-						//获取注册会员数
-						//numAnimate('regNo',dataJson.data.memberTotalCount);
-						numAnimatets(objReg,dataJson.data.memberTotalCount);
-						break;
-					case 'TASK-6':
-						//客户增长趋势图（五日）统计图
-						$('#loadA').hide();
-						var dataX=[],dataY=[];
-						for(var key in dataJson.data){
-							dataX.push(key);
-							dataY.push(dataJson.data[key].membersGrowthTrend);
-						}
-						getCustomerStatistics(dataX,dataY);
-						break;
-					case 'TASK-7':
-						//获取今日访客人数
-						break;
-					case 'TASK-8':
-						//获取今日客流概况
-						//numAnimate('UV',dataJson.data.uv);
-						numAnimatets(objUV,dataJson.data.uv);
-						
-						//numAnimate('PV',dataJson.data.pv);
-						numAnimatets(objPV,dataJson.data.pv);
-						
-						//下单转化率
-						// var objVisitor=new Odometer('#gVisitor',{
-						// 	num : dataJson.data.orderConversionRate,
-						// 	dot:2
-						// });
-						numAnimatets(objVisitor,dataJson.data.orderConversionRate);
-						
-						//付款转化率
-						// var objFlow=new Odometer('#gFlow',{
-						// 	num : dataJson.data.payConversionRate,
-						// 	dot:2
-						// });
-						numAnimatets(objFlow,dataJson.data.payConversionRate);
-						
-						//numAnimate('vistorNumber',dataJson.data.uv);
-						numAnimatets(objVist,dataJson.data.uv);
-						
-						break;
-					case 'TASK-9':
-						//获取商品销量排行
-						$('#loadC').hide();
-						var htmlTxt='';
-						if(dataJson.data&&dataJson.data.length>0){
-							var arrRank=[];
-							var rankObj=shuffle(dataJson.data);
-							$.each(rankObj, function (i, v){
-								htmlTxt+='<div class="list_tr clearFix">'
-									htmlTxt+='<span style="width: 10%;" class="first'+v.rank+'"></span>'
-									htmlTxt+='<span style="width: 24%;">'+v.goodsName+'</span>'
-									htmlTxt+='<span style="width: 22%;">'+v.orderCount+'</span>'
-									htmlTxt+='<span style="width: 22%;">￥'+v.splitPrice+'</span>'
-									htmlTxt+='<span style="width: 22%;">'+v.num+'</span>'
-								htmlTxt+='</div>'
-								arrRank.push(v.rank);
-							});
-							$('#listAnimate').html(htmlTxt);
-							changePos(arrRank);
-						}
-						break;
-					case 'TASK-10':
-						//获取交易趋势
-						//交易趋势走向图（五日)
-						$('#loadB').hide();
-						var dataX=[],dataY=[],dataZ=[];
-						for(var key in dataJson.data){
-							dataX.push(key);
-							dataY.push(dataJson.data[key].orderNumToday);
-							dataZ.push(dataJson.data[key].priceToday);
-						}
-						getTradeStatistics(dataX,dataY,dataZ);
-						
-						break;
-					case 'TASK-11':
-						//获取今日交易概况
-						//下单笔数
-						//numAnimate('orderNumber',dataJson.data.orderNumToday);
-						$('#orderNumber').text(dataJson.data.orderNumToday);
-						
-						//下单金额
-						//numAnimate('orderMoney',dataJson.data.priceToday);
-						$('#orderMoney').text(dataJson.data.priceToday);
-						
-						//付款订单数
-						//numAnimate('payNumber',dataJson.data.payCountToday);
-						$('#payNumber').text(dataJson.data.payCountToday);
-						
-						//付款金额
-						//numAnimate('payMoney',dataJson.data.payAmountToday);
-						$('#payMoney').text(dataJson.data.payAmountToday);
-						break;
-					case 'TASK-12':
-						//客单金额趋势图
-						$('#loadD').hide();
-						var dataX=[],dataY=[];
-						for(var key in dataJson.data){
-							dataX.push(key);
-							dataY.push(dataJson.data[key]);
-						}
-						guestStatistics(dataX,dataY);
-						break;
-						
+				if(dataJson.code=='TASK-13'){
+					//暂停程序
+					changeBtn=dataJson.data.flag;
+					if(changeBtn){
+						swiperA.startAutoplay();
+						swiperB.startAutoplay();
+						//更新时间
+						clock.loadClockFace('TwentyFourHourClock', {
+							autoStart: true
+						});
+					}else{
+						//暂停任务
+						swiperA.stopAutoplay();
+						swiperB.stopAutoplay();
+						var targetTimer=new Date(dataJson.data.nowTime);
+						clock.setTime(targetTimer);
+						clock.stop();
+					}
+				}
+				if(changeBtn){
+					//开始执行任务
+					switch(dataJson.code){
+						case 'TASK-1':
+							//获取订单金额
+							var totalMoney=dataJson.data.price;
+							sessionStorage.setItem('total_money',totalMoney);
+							setNumberAnimate(totalMoney,odoNum);
+							break;
+						case 'TASK-2':
+							//获取下单笔数
+							//numAnimate('workNo',dataJson.data.orderCount);
+							numAnimatets(objWork,dataJson.data.orderCount);
+							break;
+						case 'TASK-3':
+							//获取打包数量
+							//numAnimate('packNo',dataJson.data);objPack
+							numAnimatets(objPack,dataJson.data);
+							break;
+						case 'TASK-4':
+							//获取购买人数
+							//numAnimate('buyNo',dataJson.data);
+							numAnimatets(objBuy,dataJson.data);
+							break;
+						case 'TASK-5':
+							//获取注册会员数
+							//numAnimate('regNo',dataJson.data.memberTotalCount);
+							numAnimatets(objReg,dataJson.data.memberTotalCount);
+							break;
+						case 'TASK-6':
+							//客户增长趋势图（五日）统计图
+							$('#loadA').hide();
+							var dataX=[],dataY=[];
+							for(var key in dataJson.data){
+								dataX.push(key);
+								dataY.push(dataJson.data[key].membersGrowthTrend);
+							}
+							getCustomerStatistics(dataX,dataY);
+							break;
+						case 'TASK-7':
+							//获取今日访客人数
+							break;
+						case 'TASK-8':
+							//获取今日客流概况
+							//numAnimate('UV',dataJson.data.uv);
+							numAnimatets(objUV,dataJson.data.uv);
+							
+							//numAnimate('PV',dataJson.data.pv);
+							numAnimatets(objPV,dataJson.data.pv);
+							
+							//下单转化率
+							// var objVisitor=new Odometer('#gVisitor',{
+							// 	num : dataJson.data.orderConversionRate,
+							// 	dot:2
+							// });
+							//numAnimatets(objVisitor,dataJson.data.orderConversionRate);
+							objVisitor.update(dataJson.data.orderConversionRate)
+							
+							//付款转化率
+							// var objFlow=new Odometer('#gFlow',{
+							// 	num : dataJson.data.payConversionRate,
+							// 	dot:2
+							// });
+							numAnimatets(objFlow,dataJson.data.payConversionRate);
+							
+							//numAnimate('vistorNumber',dataJson.data.uv);
+							numAnimatets(objVist,dataJson.data.uv);
+							
+							break;
+						case 'TASK-9':
+							//获取商品销量排行
+							$('#loadC').hide();
+							var htmlTxt='';
+							if(dataJson.data&&dataJson.data.length>0){
+								var arrRank=[];
+								var rankObj=shuffle(dataJson.data);
+								$.each(rankObj, function (i, v){
+									htmlTxt+='<div class="list_tr clearFix">'
+										htmlTxt+='<span style="width: 10%;" class="first'+v.rank+'"></span>'
+										htmlTxt+='<span style="width: 23%;">'+v.goodsName+'</span>'
+										htmlTxt+='<span style="width: 22%;">'+v.orderCount+'</span>'
+										htmlTxt+='<span style="width: 23%;">'+v.splitPrice.toFixed(1)+'</span>'
+										htmlTxt+='<span style="width: 22%;">'+v.num+'</span>'
+									htmlTxt+='</div>'
+									arrRank.push(v.rank);
+								});
+								$('#listAnimate').html(htmlTxt);
+								changePos(arrRank);
+							}
+							break;
+						case 'TASK-10':
+							//获取交易趋势
+							//交易趋势走向图（五日)
+							$('#loadB').hide();
+							var dataX=[],dataY=[],dataZ=[];
+							for(var key in dataJson.data){
+								dataX.push(key);
+								dataY.push(dataJson.data[key].orderNumToday);
+								dataZ.push(dataJson.data[key].priceToday);
+							}
+							getTradeStatistics(dataX,dataY,dataZ);
+							
+							break;
+						case 'TASK-11':
+							//获取今日交易概况
+							//下单笔数
+							//numAnimate('orderNumber',dataJson.data.orderNumToday);
+							$('#orderNumber').text(dataJson.data.orderNumToday);
+							
+							//下单金额
+							//numAnimate('orderMoney',dataJson.data.priceToday);
+							var floatNumA=dataJson.data.priceToday.toFixed(1);
+							$('#orderMoney').text(floatNumA);
+							
+							//付款订单数
+							//numAnimate('payNumber',dataJson.data.payCountToday);
+							$('#payNumber').text(dataJson.data.payCountToday);
+							
+							//付款金额
+							//numAnimate('payMoney',dataJson.data.payAmountToday);
+							var floatNumB=dataJson.data.payAmountToday.toFixed(1);
+							$('#payMoney').text(floatNumB);
+							break;
+						case 'TASK-12':
+							//客单金额趋势图
+							$('#loadD').hide();
+							var dataX=[],dataY=[];
+							for(var key in dataJson.data){
+								dataX.push(key);
+								dataY.push(dataJson.data[key]);
+							}
+							guestStatistics(dataX,dataY);
+							break;
+							
+					}
 				}
 			}
 		});
 		
 		//绘制中国地图
 		//mapChart=echarts.init($('#chinaMap')[0]);
-		mapChart=echarts.init($('#chinaMap')[0], null, {renderer:'svg'});
+		var mapChart=echarts.init($('#chinaMap')[0], null, {renderer:'svg'});
 		var uploadedDataURL = "data/mdata.json";
 		$.getJSON(uploadedDataURL, function(geoJson) {
 			echarts.registerMap('china', geoJson);
@@ -840,7 +921,9 @@ $(function(){
 			
 			mapChart.clear();
 			mapChart.setOption(mapOption);
-			mapChart.resize();
+			$(window).on('resize', function (){
+				mapChart.resize();
+			});
 		})
 		
 	}else{
