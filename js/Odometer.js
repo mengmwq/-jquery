@@ -84,7 +84,12 @@ const Odometer = (function(win,doc) {
 		animateT($parent){//执行动画特殊需求
 		    let $dom = $parent.querySelectorAll( '.number-animate-dom' );
 			for(let o of $dom ){
-			    var _num=randomNum(1,9);
+				let numA = o.getAttribute('data-num');
+				if(numA=="."){
+					var _num='.'
+				}else{
+					var _num=randomNum(1,9);
+				}
 				o.style['transform'] = o.style['-webkit-transform'] = 'translateY(' + (_num=="." ? -11 * this._height  : -_num * this._height)+'px)';
 			}
 			setTimeout(()=>{

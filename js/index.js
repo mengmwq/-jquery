@@ -521,12 +521,12 @@ $(function(){
 		//左侧轮播
 		var swiperA = new Swiper('#swiperA',{
 			autoplay : 5000,
-			pagination : '.swiper-pagination',
+			pagination : '.swiper-pagination'
 		});
 		//右侧轮播
 		var swiperB = new Swiper('#swiperB',{
 			autoplay : 5000,
-			pagination : '.swiper-pagination',
+			pagination : '.swiper-pagination'
 		});
 		//初始化交易总金额数字动画
 		var totalMoNum=sessionStorage.getItem('total_money');
@@ -607,9 +607,9 @@ $(function(){
 			if(dataJson.code){
 				//console.log(dataJson)
 				if(dataJson.code=='TASK-13'){
-					//暂停程序
 					changeBtn=dataJson.data.flag;
 					if(changeBtn){
+						//开始任务
 						swiperA.startAutoplay();
 						swiperB.startAutoplay();
 						//更新时间
@@ -756,7 +756,7 @@ $(function(){
 								dataX.push(key);
 								dataY.push(dataJson.data[key]);
 							}
-							guestStatistics(dataX,dataY);
+							//guestStatistics(dataX,dataY);
 							break;
 							
 					}
