@@ -457,7 +457,7 @@ div{
 	left:50%;
 	top:80px;
 	margin-left: -40px;
-	display: none;
+	display: block;
 }
 .loading img{
 	max-width: 100%;

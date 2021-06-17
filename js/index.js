@@ -1,3 +1,4 @@
+var clock=null,swiperA=null,swiperB=null;
 //时间格式化
 Date.prototype.Format = function (fmt) {
 	//var time1 = new Date().Format("yyyy-MM-dd");
@@ -476,14 +477,16 @@ function numAnimate(id,num){
 function numAnimatets(obj,num){
 	obj.updateT(num);
 }
+//救急临时开关停屏控制变量
+var _stopScreen=false;
 //长链接WebSocket
 function connect(token,fnc) {
 	var url='ws://101.201.181.1:9999/big-screen-server/'+token;
-	//var url='ws://192.168.1.156:9999/big-screen-server/'+token;
-	$('#loadA').show();
-	$('#loadB').show();
-	$('#loadC').show();
-	$('#loadD').show();
+	//var url='ws://192.168.1.109:9999/big-screen-server/'+token;
+	// $('#loadA').show();
+	// $('#loadB').show();
+	// $('#loadC').show();
+	// $('#loadD').show();
 	var ws = new WebSocket(url);
 	ws.addEventListener('open', function (event) {
 		//ws.send(f);
@@ -492,12 +495,27 @@ function connect(token,fnc) {
 		var data = event.data;
 		// 处理数据
 		//console.log(data)
+		//停屏操作
+		if(_stopScreen){
+			//更新时间
+			clock = $('.clock').FlipClock({
+				clockFace: 'TwentyFourHourClock',
+				autoStart: true
+			});
+			swiperA.startAutoplay();
+			swiperB.startAutoplay();
+			_stopScreen=false;
+		}
 		fnc&&fnc(data);
 	});
 	ws.addEventListener("close", function(event) {
-	  setTimeout(function() {
-		connect(token,fnc);
-	  }, 1000);
+		setTimeout(function() {
+			swiperA.stopAutoplay();
+			swiperB.stopAutoplay();
+			clock.stop();
+			_stopScreen=true;
+			connect(token,fnc);
+		}, 1000);
 	});
 }
 
@@ -509,7 +527,7 @@ $(function(){
 	var kToken=sessionStorage.getItem('ktoken');
 	
 	//时间滚动
-	var clock = $('.clock').FlipClock({
+	clock = $('.clock').FlipClock({
 		clockFace: 'TwentyFourHourClock',
 		autoStart: true
 	});
@@ -519,12 +537,12 @@ $(function(){
 		//f11 全屏展示
 		setMenuHeight();
 		//左侧轮播
-		var swiperA = new Swiper('#swiperA',{
+		swiperA = new Swiper('#swiperA',{
 			autoplay : 5000,
 			pagination : '.swiper-pagination'
 		});
 		//右侧轮播
-		var swiperB = new Swiper('#swiperB',{
+		swiperB = new Swiper('#swiperB',{
 			autoplay : 5000,
 			pagination : '.swiper-pagination'
 		});
