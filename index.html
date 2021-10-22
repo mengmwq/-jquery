@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,15 +25,41 @@
 	<script type="text/javascript" src="js/Odometer.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
 </head>
+
 <body>
 	<div class="wrap">
-		<div class="hd" id="hder">
-			<img src="images/hd_logo.png" alt="">
-			<div class="clock"></div>
+		<div class="hd head" id="hder">
+			<h1>海控数据可视化平台</h1>
+			<div class="weather">
+				<!--<img src="picture/weather.png"><span>多云转小雨</span>--><span id="showTime"></span>
+
+			</div>
+			<script>
+				var t = null;
+				t = setTimeout(time, 1000); //開始运行
+				function addzero(obj) {
+					if (obj < 10) return "0" + "" + obj;
+					else return obj;
+				}
+
+				function time() {
+					clearTimeout(t); //清除定时器
+					dt = new Date();
+					var y = dt.getFullYear();
+					var mt = addzero(dt.getMonth() + 1);
+					var day = addzero(dt.getDate());
+					var h = addzero(dt.getHours()); //获取时
+					var m = addzero(dt.getMinutes()); //获取分
+					var s = addzero(dt.getSeconds()); //获取秒
+					document.getElementById("showTime").innerHTML =
+						y + "-" + mt + "-" + day + " " + h + ":" + m + ":" + s;
+					t = setTimeout(time, 1000); //设定定时器，循环运行
+				}
+			</script>
 		</div>
-		<div class="content clearFix">
+		<div class="content clearFix mainbox">
 			<div class="cont_left">
-				<div class="swiper-container set_line" id="swiperA">
+				<div class="swiper-container set_line boxall" id="swiperA">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<div class="left_swiper">
@@ -44,6 +71,7 @@
 								<div class="loading" id="loadA">
 									<img src="images/loading.gif" alt="">
 								</div>
+								<div class="boxfoot"></div>
 							</div>
 						</div>
 						<!-- <div class="swiper-slide">
@@ -61,7 +89,7 @@
 					</div>
 					<!-- <div class="swiper-pagination"></div> -->
 				</div>
-				<div class="left_ups" >
+				<div class="left_ups boxall">
 					<div class="titTxt clearFix">
 						<i></i>
 						<span>流量概况（今日）</span>
@@ -74,7 +102,7 @@
 							</div>
 							<div class="one_R">
 								<p>浏览器PV</p>
-								<div id="PV"  class="set_font">0</div>
+								<div id="PV" class="set_font">0</div>
 							</div>
 						</div>
 						<div class="one two clearFix">
@@ -92,9 +120,12 @@
 									<div class="percent">%</div>
 								</div>
 							</div>
+
 						</div>
 					</div>
+					<div class="boxfoot"></div>
 				</div>
+
 			</div>
 			<div class="cont_center">
 				<div class="number_k">
@@ -105,10 +136,10 @@
 						<div class="totalMoney" id="totalMoney"></div>
 					</div>
 				</div>
-				<div class="day_visitor">
+				<!-- <div class="day_visitor">
 					<span>今日访客人数：</span>
 					<div id="vistorNumber" class="set_font">0</div>
-				</div>
+				</div> -->
 				<div class="circle">
 					<div class="one">
 						<div class="order_c">
@@ -124,7 +155,7 @@
 						<div class="order_c">
 							<div class="order_cl">
 								<img src="images/cirle.png" alt="">
-								<span>打包数量</span>
+								<span>GMV(交易总额)</span>
 							</div>
 							<div class="cir_or">
 								<div id="packNo" class="set_font">0</div>
@@ -146,7 +177,7 @@
 						<div class="order_c">
 							<div class="order_cl">
 								<img src="images/cirle.png" alt="">
-								<span>注册会员</span>
+								<span>净销售额</span>
 							</div>
 							<div class="cir_or">
 								<div id="regNo" class="set_font">0</div>
@@ -158,59 +189,59 @@
 				<div class="map_box" id="mapBox">
 					<div class="china_map" id="chinaMap"></div>
 					<div class="prov_rank">
-						
+
 					</div>
 				</div>
 			</div>
 			<div class="cont_right">
-				<div class="swiper-container set_line" id="swiperB">
-				  <div class="swiper-wrapper">
-				    <div class="swiper-slide">
-						<div class="right_up">
-							<div class="titTxt clearFix">
-								<i></i>
-								<span>交易趋势走向图（五日）</span>
-							</div>
-							<div class="echart_one" id="echartTwo"></div>
-							<div class="loading" id="loadB">
-								<img src="images/loading.gif" alt="">
-							</div>
-						</div>
-					</div>
-				    <div class="swiper-slide">
-						<div class="left_up">
-							<div class="titTxt clearFix">
-								<i></i>
-								<span>交易概况（今日）</span>
-							</div>
-							<div class="flow">
-								<div class="one clearFix">
-									<div class="one_L">
-										<p>下单笔数</p>
-										<div id="orderNumber" class="set_font">0</div>
-									</div>
-									<div class="one_R">
-										<p>下单金额</p>
-										<div id="orderMoney" class="set_font">0</div>
-									</div>
+				<div class="swiper-container set_line boxall" id="swiperB">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div class="right_up">
+								<div class="titTxt clearFix">
+									<i></i>
+									<span>交易趋势走向图（五日）</span>
 								</div>
-								<div class="one two clearFix">
-									<div class="one_L">
-										<p>付款订单数</p>
-										<div id="payNumber" class="set_font">0</div>
-									</div>
-									<div class="one_R">
-										<p>付款金额</p>
-										<div id="payMoney" class="set_font">0</div>
-									</div>
+								<div class="echart_one" id="echartTwo"></div>
+								<div class="loading" id="loadB">
+									<img src="images/loading.gif" alt="">
 								</div>
 							</div>
 						</div>
+						<div class="swiper-slide">
+							<div class="left_up">
+								<div class="titTxt clearFix">
+									<i></i>
+									<span>交易概况（今日）</span>
+								</div>
+								<div class="flow">
+									<div class="one clearFix">
+										<div class="one_L">
+											<p>下单笔数</p>
+											<div id="orderNumber" class="set_font">0</div>
+										</div>
+										<div class="one_R">
+											<p>下单金额</p>
+											<div id="orderMoney" class="set_font">0</div>
+										</div>
+									</div>
+									<div class="one two clearFix">
+										<div class="one_L">
+											<p>付款订单数</p>
+											<div id="payNumber" class="set_font">0</div>
+										</div>
+										<div class="one_R">
+											<p>付款金额</p>
+											<div id="payMoney" class="set_font">0</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-				  </div>
-				  <div class="swiper-pagination"></div>
+					<div class="swiper-pagination"></div>
 				</div>
-				<div class="list">
+				<div class="list boxall">
 					<div class="titTxt clearFix">
 						<i></i>
 						<span>商品销量排行榜(今日)</span>
@@ -235,8 +266,11 @@
 						<div class="loading" id="loadC">
 							<img src="images/loading.gif" alt="">
 						</div>
+
 					</div>
+					<div class="boxfoot"></div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -247,10 +281,11 @@
 		<div class="tip_ft" onclick="navTo()">确定</div>
 	</div>
 </body>
+
 </html>
 <script>
 	//跳转至登录页
-	function navTo(){
-		window.location.href='./login.html';
+	function navTo() {
+		window.location.href = './login.html';
 	}
 </script>
