@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta http-equiv="refresh" content="18000">
 	<title>商品销售数据后台</title>
 	<link id="icoLink" rel="shortcut icon" href="images/tit.ico" type="image/x-icon">
@@ -13,6 +13,19 @@
 	<link rel="stylesheet" href="css/Odometer.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/media.css">
+
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+		integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+		integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+		integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+	</script>
 
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="js/swiper.min.js"></script>
@@ -24,14 +37,18 @@
 	<script type="text/javascript" src="mapdata/china_data.js"></script>
 	<script type="text/javascript" src="js/Odometer.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/china.js"></script>
+	<script type="text/javascript" src="js/area_echarts.js"></script>
 </head>
+
 
 <body>
 	<div class="wrap">
 		<div class="hd head" id="hder">
 			<h1>海控数据可视化平台</h1>
+
 			<div class="weather">
-				<!--<img src="picture/weather.png"><span>多云转小雨</span>--><span id="showTime"></span>
+				<span id="showTime"></span>
 
 			</div>
 			<script>
@@ -57,8 +74,9 @@
 				}
 			</script>
 		</div>
-		<div class="content clearFix mainbox">
-			<div class="cont_left">
+		<div class="content clearFix mainbox row">
+			<div class="cont_left col-xs-12 col-sm-12 ">
+
 				<div class="swiper-container set_line boxall" id="swiperA">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
@@ -74,20 +92,9 @@
 								<div class="boxfoot"></div>
 							</div>
 						</div>
-						<!-- <div class="swiper-slide">
-							<div class="left_swiper">
-								<div class="titTxt clearFix">
-									<i></i>
-									<span>客单金额趋势图（五日）</span>
-								</div>
-								<div class="echart_one" id="echartThree"></div>
-								<div class="loading" id="loadD">
-									<img src="images/loading.gif" alt="">
-								</div>
-							</div>
-						</div> -->
+
 					</div>
-					<!-- <div class="swiper-pagination"></div> -->
+
 				</div>
 				<div class="left_ups boxall">
 					<div class="titTxt clearFix">
@@ -127,73 +134,111 @@
 				</div>
 
 			</div>
-			<div class="cont_center">
-				<div class="number_k">
-					<div class="number_box clearFix" id="numbersBtn">
-						<div class="money">
-							<img src="images/money.png" alt="">
+			<div class="cont_center col-xs-12 col-sm-12 ">
+				<div class="boxall">
+					<div class="number_k">
+						<div class="number_box clearFix" id="numbersBtn">
+							<div class="money">
+								<img src="images/money.png" alt="">
+							</div>
+							<div class="totalMoney" id="totalMoney"></div>
 						</div>
-						<div class="totalMoney" id="totalMoney"></div>
 					</div>
-				</div>
-				<!-- <div class="day_visitor">
+					<!-- <div class="day_visitor">
 					<span>今日访客人数：</span>
 					<div id="vistorNumber" class="set_font">0</div>
 				</div> -->
-				<div class="circle">
-					<div class="one">
-						<div class="order_c">
-							<div class="order_cl">
-								<img src="images/cirle.png" alt="">
-								<span>下单笔数</span>
+					<div class="circle">
+						<div class="one row">
+							<div class="order_c col-xs-12 col-sm-12">
+								<div class="order_cl">
+									<img src="images/cirle.png" alt="">
+									<span>下单笔数</span>
+								</div>
+								<div class="cir_or">
+									<div id="workNo" class="set_font">0</div>
+									<i>单</i>
+								</div>
 							</div>
-							<div class="cir_or">
-								<div id="workNo" class="set_font">0</div>
-								<i>单</i>
+							<div class="order_c col-xs-12 col-sm-12">
+								<div class="order_cl">
+									<img src="images/cirle.png" alt="">
+									<span>GMV(交易总额)</span>
+								</div>
+								<div class="cir_or">
+									<div id="packNo" class="set_font">0</div>
+									<i>件</i>
+								</div>
 							</div>
 						</div>
-						<div class="order_c">
-							<div class="order_cl">
-								<img src="images/cirle.png" alt="">
-								<span>GMV(交易总额)</span>
+						<div class="one row">
+							<div class="order_c col-xs-12 col-sm-12">
+								<div class="order_cl">
+									<img src="images/cirle.png" alt="">
+									<span>购买人数</span>
+								</div>
+								<div class="cir_or">
+									<div id="buyNo" class="set_font">0</div>
+									<i>人</i>
+								</div>
 							</div>
-							<div class="cir_or">
-								<div id="packNo" class="set_font">0</div>
-								<i>件</i>
+							<div class="order_c col-xs-12 col-sm-12">
+								<div class="order_cl">
+									<img src="images/cirle.png" alt="">
+									<span>净销售额</span>
+								</div>
+								<div class="cir_or">
+									<div id="regNo" class="set_font">0</div>
+									<i>人</i>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="one">
-						<div class="order_c">
-							<div class="order_cl">
-								<img src="images/cirle.png" alt="">
-								<span>购买人数</span>
-							</div>
-							<div class="cir_or">
-								<div id="buyNo" class="set_font">0</div>
-								<i>人</i>
-							</div>
+					<!-- <div class="map_box" id="mapBox">
+						<div class="china_map" id="chinaMap"></div>
+						<div class="prov_rank">
+
 						</div>
-						<div class="order_c">
-							<div class="order_cl">
-								<img src="images/cirle.png" alt="">
-								<span>净销售额</span>
-							</div>
-							<div class="cir_or">
-								<div id="regNo" class="set_font">0</div>
-								<i>人</i>
-							</div>
-						</div>
-					</div>
+					</div> -->
+
+
+					<div class="china_map map4" id="chinaMap" style="height:420px;width:100%;"></div>
+
+					<div class="boxfoot"></div>
 				</div>
-				<div class="map_box" id="mapBox">
-					<div class="china_map" id="chinaMap"></div>
-					<div class="prov_rank">
+
+			</div>
+			<div class="cont_right col-xs-12 col-sm-12">
+
+				<div class="list boxall">
+					<div class="titTxt clearFix">
+						<i></i>
+						<span>商品销量排行榜(今日)</span>
+					</div>
+					<div class="list_hd clearFix">
+						<span style="width: 10%;">序号</span>
+						<span style="width: 23%;">商品名称</span>
+						<span style="width: 22%;">下单笔数</span>
+						<span style="width: 23%;">下单金额</span>
+						<span style="width: 22%;">下单件数</span>
+					</div>
+					<div class="list_cont">
+						<div class="list_animate" id="listAnimate">
+							<div class="list_tr clearFix">
+								<span style="width: 10%;" class="first"></span>
+								<span style="width: 30%;">雅施莱丹50ml</span>
+								<span style="width: 20%;">100</span>
+								<span style="width: 20%;">￥348757</span>
+								<span style="width: 20%;">1000</span>
+							</div>
+						</div>
+						<div class="loading" id="loadC">
+							<img src="images/loading.gif" alt="">
+						</div>
 
 					</div>
+					<div class="boxfoot"></div>
 				</div>
-			</div>
-			<div class="cont_right">
 				<div class="swiper-container set_line boxall" id="swiperB">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
@@ -208,7 +253,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="swiper-slide">
+						<!-- <div class="swiper-slide">
 							<div class="left_up">
 								<div class="titTxt clearFix">
 									<i></i>
@@ -237,37 +282,9 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<div class="swiper-pagination"></div>
-				</div>
-				<div class="list boxall">
-					<div class="titTxt clearFix">
-						<i></i>
-						<span>商品销量排行榜(今日)</span>
-					</div>
-					<div class="list_hd clearFix">
-						<span style="width: 10%;">序号</span>
-						<span style="width: 23%;">商品名称</span>
-						<span style="width: 22%;">下单笔数</span>
-						<span style="width: 23%;">下单金额</span>
-						<span style="width: 22%;">下单件数</span>
-					</div>
-					<div class="list_cont">
-						<div class="list_animate" id="listAnimate">
-							<!-- <div class="list_tr clearFix">
-								<span style="width: 10%;" class="first"></span>
-								<span style="width: 30%;">雅施莱丹50ml</span>
-								<span style="width: 20%;">100</span>
-								<span style="width: 20%;">￥348757</span>
-								<span style="width: 20%;">1000</span>
-							</div> -->
-						</div>
-						<div class="loading" id="loadC">
-							<img src="images/loading.gif" alt="">
-						</div>
-
-					</div>
 					<div class="boxfoot"></div>
 				</div>
 
@@ -284,8 +301,15 @@
 
 </html>
 <script>
-	//跳转至登录页
+	// //跳转至登录页
 	function navTo() {
 		window.location.href = './login.html';
+	}
+	//定义变量获取屏幕视口宽度
+	var windowWidth = $(window).width();
+	if (windowWidth > 970) {
+		// do something
+		$(".cont_center .boxall").removeClass("boxall");
+		$(".cont_center .boxfoot").removeClass("boxfoot")
 	}
 </script>

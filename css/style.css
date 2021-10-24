@@ -1,4 +1,11 @@
 @charset "utf-8";
+html {
+	/*font-size: 62.5%;*/
+}
+.row{
+	margin-right: 0!important;
+    margin-left: 0!important;
+}
 *{
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -33,7 +40,7 @@ a:hover{ color:#06c; text-decoration: none!important}
 
 /***/
 
-body{ background:#000d4a url(../images/dapingbg.jpg) center top; background-size:cover;color:#666; padding-bottom: 30px;font-size: .1rem;}
+body{ background:#000d4a url(../images/dapingbg.jpg) center top; background-size:cover;color:#666; font-size: .1rem;}
 .boxall:after, .boxfoot:after {
     border-right: 2px solid #02a6b5;
     right: 0;
@@ -49,15 +56,14 @@ body{ background:#000d4a url(../images/dapingbg.jpg) center top; background-size
 .boxfoot:before,
 .boxfoot:after{ position:absolute; width: 0.8rem; height: 0.8rem;  content: "";border-bottom: 2px solid #02a6b5; bottom: 0;}
 
-.weather{ position:absolute; right:.3rem; top:20px; line-height: .75rem;}
+.weather{ position:absolute; right:.3rem; top:0; line-height: .75rem;}
 .weather img{ width:.37rem; display: inline-block; vertical-align: middle;}
 .weather span{color:rgba(255,255,255,.7); font-size: 18px; padding-right: 5rem;}
-.head {
+/* .head {
     height: 1.05rem;
-    background: url(../images/head_bg.png) no-repeat center center;
     background-size: 100% 100%;
     position: relative;
-}
+} */
 .head h1 {
     color: #c5ccff;
     text-align: center;
@@ -102,7 +108,7 @@ div{
 	color:#c5ccff;
 	text-align: center;
 	position: relative;
-	margin: 0 auto;
+	margin: -10px  auto 0px auto;
 	
 }
 .content{
@@ -140,7 +146,7 @@ div{
 	background: url(../images/line.png) no-repeat center center;
 	background-size: 100% 100%;
 	padding-bottom: 20px;
-	margin-top: 30px;
+	/* margin-top: 30px; */
 	position: relative;
 }
 .left_swiper{
@@ -150,7 +156,7 @@ div{
 .set_line{
 	background: url(../images/line.png) no-repeat center center;
 	background-size: 100% 100%;
-	margin-top: 30px;
+	/* margin-top: 30px; */
 }
 .right_up{
 	padding-bottom: 20px;
@@ -234,7 +240,7 @@ div{
 	height: 340px;
 	background: url(../images/line.png) no-repeat center center;
 	background-size: 100% 100%;
-	margin-top: 30px;
+	/* margin-top: 30px; */
 }
 .list_hd{
 	height:50px;
@@ -305,9 +311,9 @@ div{
 .list_tr .first5{
 	background: url(../images/icon05.png) no-repeat center center;
 }
-.number_k{
+/* .number_k{
 	margin-top:40px;
-}
+} */
 .number_box{
 	position: relative;
 	margin: 0 auto;
@@ -375,9 +381,10 @@ div{
 	position: relative;
 }
 .china_map{
-	margin-top: 30px;
+	/* margin-top: 30px; */
 	width: 100%;
 	height: 100%;
+	
 }
 .swiper-pagination-bullet{
 	background:#c5ccff;
@@ -385,7 +392,7 @@ div{
 .circle .one{
 	display: flex;
 	justify-content: space-around;
-	margin-top:40px;
+	margin-top:20px;
 }
 .order_cl{
 	width: 104px;
@@ -409,7 +416,7 @@ div{
 	line-height: 140px;
 	width: 100%;
 	text-align: center;
-	color: #3881c4;
+	color: #49bcf7;
 	font-size: 10px;
 }
 .order_c{
@@ -494,7 +501,7 @@ div{
 .totalMoney .number-animate-dom{
 	width: 65px;
 	margin-left: 10px;
-	background-color: rgba(19,31,58,0.5);
+	/* background-color: rgba(19,31,58,0.5); */
 }
 .totalMoney .number-animate .number-animate-dom span {
 	height: 100px;
@@ -546,3 +553,21 @@ div{
 .dotted,.percent{
 	align-self:center
 }
+
+
+
+/* 超小屏幕（手机，小于 768px） */
+/* 没有任何媒体查询相关的代码，因为这在 Bootstrap 中是默认的（还记得 Bootstrap 是移动设备优先的吗？） */
+
+/* 小屏幕（平板，大于等于 768px） */
+@media (min-width: 768px) {  }
+
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+@media (min-width: 992px){  }
+
+/* 大屏幕（大桌面显示器，大于等于 1200px） */
+@media (min-width: 1200) {  }
+
+
+
+

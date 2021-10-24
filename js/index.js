@@ -32,6 +32,12 @@ function getCustomerStatistics(dataX, dataY) {
 			// 越往后的数据延迟越大
 			return idx * 100;
 		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '3%',
+			containLabel: true
+		},
 		xAxis: {
 			data: dataX,
 			axisLabel: {
@@ -77,7 +83,7 @@ function getCustomerStatistics(dataX, dataY) {
 					color: new echarts.graphic.LinearGradient(
 						0, 0, 0, 1,
 						[
-							{ offset: 0, color: '#d04493' },
+							{ offset: 0, color: '#28ffb3' },
 							{ offset: 1, color: '#5264ad' }
 						]
 					)
@@ -93,6 +99,13 @@ function getCustomerStatistics(dataX, dataY) {
 		oneChart.resize();
 	});
 }
+//定义变量获取屏幕视口宽度
+var windowWidth = $(window).width();
+if (windowWidth < 970) {
+	// do something
+	$(".cont_center .boxall").remove();
+}
+
 //客单趋势走向图
 function guestStatistics(dataX, dataY) {
 	var threeOption = {
@@ -114,7 +127,7 @@ function guestStatistics(dataX, dataY) {
 			}
 		},
 		grid: {
-			left: '3%',
+			left: '20%',
 			right: '4%',
 			bottom: '3%',
 			containLabel: true
@@ -130,7 +143,7 @@ function guestStatistics(dataX, dataY) {
 				},
 				axisLine: {
 					lineStyle: {
-						color: '#426491'
+						color: '#62b62f'
 					}
 				},
 				splitLine: {
@@ -218,7 +231,7 @@ function getTradeStatistics(dataX, dataY1, dataY2) {
 			}, {
 				name: '下单金额 (元)',
 				textStyle: {
-					color: '#5085bf'
+					color: '#28ffb3'
 				}
 			}],
 			textStyle: {
@@ -235,10 +248,13 @@ function getTradeStatistics(dataX, dataY1, dataY2) {
 			{
 				type: 'category',
 				data: dataX,
+
+
 				axisLabel: {
 					textStyle: {
 						color: '#fff'
-					}
+					},
+					interval: 0,
 				},
 				axisLine: {
 					lineStyle: {
@@ -291,7 +307,7 @@ function getTradeStatistics(dataX, dataY1, dataY2) {
 					show: false
 				},
 				nameTextStyle: {
-					color: "#5085bf"
+					color: "#28ffb3"
 				},
 				splitLine: {
 					show: true,
@@ -330,17 +346,17 @@ function getTradeStatistics(dataX, dataY1, dataY2) {
 				areaStyle: {
 					color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
 						offset: 0,
-						color: '#5085bf'
+						color: '#28ffb3'
 					}, {
 						offset: 1,
-						color: '#5085bf'
+						color: '#28ffb3'
 					}]),
 					opacity: 0.5
 				},
 				yAxisIndex: 1,
 				data: dataY2,
 				lineStyle: {
-					color: "#5085bf"
+					color: "#28ffb3"
 				},
 				smooth: true
 			}
@@ -525,6 +541,8 @@ $(function () {
 	var objWork = null, objPack = null, objBuy = null, objReg = null;
 	//登录获取token
 	var kToken = sessionStorage.getItem('ktoken');
+	// var kToken = 'user: admin_MjAyMCojMDYj'
+	// user: admin_MjAyMCojMDYj
 
 	//时间滚动
 	clock = $('.clock').FlipClock({
@@ -750,21 +768,21 @@ $(function () {
 							//获取今日交易概况
 							//下单笔数
 							//numAnimate('orderNumber',dataJson.data.orderNumToday);
-							$('#orderNumber').text(dataJson.data.orderNumToday);
+							// $('#orderNumber').text(dataJson.data.orderNumToday);
 
 							//下单金额
 							//numAnimate('orderMoney',dataJson.data.priceToday);
-							var floatNumA = dataJson.data.priceToday.toFixed(1);
-							$('#orderMoney').text(floatNumA);
+							// var floatNumA = dataJson.data.priceToday.toFixed(1);
+							// $('#orderMoney').text(floatNumA);
 
 							//付款订单数
 							//numAnimate('payNumber',dataJson.data.payCountToday);
-							$('#payNumber').text(dataJson.data.payCountToday);
+							// $('#payNumber').text(dataJson.data.payCountToday);
 
 							//付款金额
 							//numAnimate('payMoney',dataJson.data.payAmountToday);
-							var floatNumB = dataJson.data.payAmountToday.toFixed(1);
-							$('#payMoney').text(floatNumB);
+							// var floatNumB = dataJson.data.payAmountToday.toFixed(1);
+							// $('#payMoney').text(floatNumB);
 							break;
 						case 'TASK-12':
 							//客单金额趋势图
@@ -783,166 +801,167 @@ $(function () {
 		});
 
 		//绘制中国地图
-		//mapChart=echarts.init($('#chinaMap')[0]);
-		var mapChart = echarts.init($('#chinaMap')[0], null, { renderer: 'svg' });
-		var uploadedDataURL = "data/mdata.json";
-		$.getJSON(uploadedDataURL, function (geoJson) {
-			echarts.registerMap('china', geoJson);
-			var convertData = function (data) {
-				var res = [];
-				for (var i = 0; i < data.length; i++) {
-					var dataItem = data[i];
-					var fromCoord = chinaGeoCoordMap[dataItem[0].name];
-					var toCoord = [116.4551, 40.2539];
-					if (fromCoord && toCoord) {
-						res.push([{
-							coord: toCoord,
-							value: dataItem[0].value
-						}, {
-							coord: fromCoord,
-							value: dataItem[0].value
-						}]);
-					}
-				}
-				return res;
-			};
-			var seriesMap = [];
-			var fliterArr = [['北京', chinaDatas]];
-			fliterArr.forEach(function (item, i) {
-				seriesMap.push(
-					{
-						type: 'lines',
-						zlevel: 1,
-						effect: {
-							show: true,
-							period: 4, //箭头指向速度，值越小速度越快
-							trailLength: 0.05, //特效尾迹长度[0,1]值越大，尾迹越长重
-							color: '#ffffff',
-							symbol: 'arrow', //箭头图标
-							symbolSize: 6 //图标大小
-						},
-						label: {
-							show: false
-						},
-						lineStyle: {
-							normal: {
-								width: 1, //尾迹线条宽度
-								opacity: 1, //尾迹线条透明度
-								curveness: .3 //尾迹线条曲直度
-							}
-						},
-						data: convertData(item[1])
-					},
-					{
-						type: 'effectScatter',
-						coordinateSystem: 'geo',
-						zlevel: 2,
-						rippleEffect: { //涟漪特效
-							period: 3, //动画时间，值越小速度越快
-							brushType: 'stroke', //波纹绘制方式 stroke, fill
-							scale: 3 //波纹圆环最大限制，值越大波纹越大
-						},
-						label: {
-							normal: {
-								show: false,
-								position: 'right', //显示位置
-								offset: [5, 0], //偏移设置
-								formatter: function (params) { //圆环显示文字
-									return params.data.name;
-								},
-								fontSize: 13,
-								color: "#f0f0f0"
-							},
-							emphasis: {
-								show: true
-							}
-						},
-						symbol: 'circle',
-						symbolSize: function (val) {
-							return 8; //圆环大小
-						},
-						itemStyle: {
-							normal: {
-								show: false,
-								color: '#f00'
-							}
-						},
-						data: item[1].map(function (dataItem) {
-							return {
-								name: dataItem[0].name,
-								value: chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
-							};
-						}),
-					}
-				);
-			});
-			var mapOption = {
-				background: "rgba(10,19,36,0.7)",
-				tooltip: {
-					trigger: 'item',
-					borderColor: '#FFFFCC',
-					enterable: false,
-					extraCssText: 'z-index:100',
-					formatter: function (params, ticket, callback) {
-						//根据业务自己拓展要显示的内容
-						var res = "";
-						if (params.componentSubType == "effectScatter") {
-							var name = params.name;
-							var value = params.value;
-							if (Array.isArray(value)) {
-								value = params.value[2];
-							} else {
-								value = params.value;
-							}
-							res = "<span style='color:#fff;'>" + name + "</span><br/>数据：" + value;
-							return res;
-						}
-					}
-				},
-				visualMap: { //图例值控制
-					min: 0,
-					max: 1,
-					calculable: true,
-					show: true,
-					color: ['#f44336', '#fc9700', '#ffde00', '#ffde00', '#00eaff'],
-					textStyle: {
-						color: '#fff'
-					},
-					show: false
-				},
-				geo: {
-					map: 'china',
-					zoom: 1.2,
-					label: {
-						emphasis: {
-							show: false,
-							color: '#ffff'
-						},
-						show: true,
-						color: '#fff',
-						fontSize: 11
-					},
-					roam: false, //是否允许缩放
-					itemStyle: {
-						normal: {
-							color: 'rgba(80,133, 191, 0.7)', //省份地图背景色
-							borderColor: '#a5a4af', //省市边界线00fcff 516a89
-							borderWidth: 1
-						},
-						emphasis: {
-							color: 'rgba(80,133, 191, 1)' //悬浮背景
-						}
-					}
-				},
-				series: seriesMap
-			};
 
-			mapChart.clear();
-			mapChart.setOption(mapOption);
-			$(window).on('resize', function () {
-				mapChart.resize();
-			});
-		})
+		//mapChart=echarts.init($('#chinaMap')[0]);
+		// var mapChart = echarts.init($('#chinaMap')[0], null, { renderer: 'svg' });
+		// var uploadedDataURL = "data/mdata.json";
+		// $.getJSON(uploadedDataURL, function (geoJson) {
+		// 	echarts.registerMap('china', geoJson);
+		// 	var convertData = function (data) {
+		// 		var res = [];
+		// 		for (var i = 0; i < data.length; i++) {
+		// 			var dataItem = data[i];
+		// 			var fromCoord = chinaGeoCoordMap[dataItem[0].name];
+		// 			var toCoord = [116.4551, 40.2539];
+		// 			if (fromCoord && toCoord) {
+		// 				res.push([{
+		// 					coord: toCoord,
+		// 					value: dataItem[0].value
+		// 				}, {
+		// 					coord: fromCoord,
+		// 					value: dataItem[0].value
+		// 				}]);
+		// 			}
+		// 		}
+		// 		return res;
+		// 	};
+		// 	var seriesMap = [];
+		// 	var fliterArr = [['北京', chinaDatas]];
+		// 	fliterArr.forEach(function (item, i) {
+		// 		seriesMap.push(
+		// 			{
+		// 				type: 'lines',
+		// 				zlevel: 1,
+		// 				effect: {
+		// 					show: true,
+		// 					period: 4, //箭头指向速度，值越小速度越快
+		// 					trailLength: 0.05, //特效尾迹长度[0,1]值越大，尾迹越长重
+		// 					color: '#ffffff',
+		// 					symbol: 'arrow', //箭头图标
+		// 					symbolSize: 6 //图标大小
+		// 				},
+		// 				label: {
+		// 					show: false
+		// 				},
+		// 				lineStyle: {
+		// 					normal: {
+		// 						width: 1, //尾迹线条宽度
+		// 						opacity: 1, //尾迹线条透明度
+		// 						curveness: .3 //尾迹线条曲直度
+		// 					}
+		// 				},
+		// 				data: convertData(item[1])
+		// 			},
+		// 			{
+		// 				type: 'effectScatter',
+		// 				coordinateSystem: 'geo',
+		// 				zlevel: 2,
+		// 				rippleEffect: { //涟漪特效
+		// 					period: 3, //动画时间，值越小速度越快
+		// 					brushType: 'stroke', //波纹绘制方式 stroke, fill
+		// 					scale: 3 //波纹圆环最大限制，值越大波纹越大
+		// 				},
+		// 				label: {
+		// 					normal: {
+		// 						show: false,
+		// 						position: 'right', //显示位置
+		// 						offset: [5, 0], //偏移设置
+		// 						formatter: function (params) { //圆环显示文字
+		// 							return params.data.name;
+		// 						},
+		// 						fontSize: 13,
+		// 						color: "#f0f0f0"
+		// 					},
+		// 					emphasis: {
+		// 						show: true
+		// 					}
+		// 				},
+		// 				symbol: 'circle',
+		// 				symbolSize: function (val) {
+		// 					return 8; //圆环大小
+		// 				},
+		// 				itemStyle: {
+		// 					normal: {
+		// 						show: false,
+		// 						color: '#f00'
+		// 					}
+		// 				},
+		// 				data: item[1].map(function (dataItem) {
+		// 					return {
+		// 						name: dataItem[0].name,
+		// 						value: chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
+		// 					};
+		// 				}),
+		// 			}
+		// 		);
+		// 	});
+		// 	var mapOption = {
+		// 		background: "rgba(10,19,36,0.7)",
+		// 		tooltip: {
+		// 			trigger: 'item',
+		// 			borderColor: '#FFFFCC',
+		// 			enterable: false,
+		// 			extraCssText: 'z-index:100',
+		// 			formatter: function (params, ticket, callback) {
+		// 				//根据业务自己拓展要显示的内容
+		// 				var res = "";
+		// 				if (params.componentSubType == "effectScatter") {
+		// 					var name = params.name;
+		// 					var value = params.value;
+		// 					if (Array.isArray(value)) {
+		// 						value = params.value[2];
+		// 					} else {
+		// 						value = params.value;
+		// 					}
+		// 					res = "<span style='color:#fff;'>" + name + "</span><br/>数据：" + value;
+		// 					return res;
+		// 				}
+		// 			}
+		// 		},
+		// 		visualMap: { //图例值控制
+		// 			min: 0,
+		// 			max: 1,
+		// 			calculable: true,
+		// 			show: true,
+		// 			color: ['#f44336', '#fc9700', '#ffde00', '#ffde00', '#00eaff'],
+		// 			textStyle: {
+		// 				color: '#fff'
+		// 			},
+		// 			show: false
+		// 		},
+		// 		geo: {
+		// 			map: 'china',
+		// 			zoom: 1.2,
+		// 			label: {
+		// 				emphasis: {
+		// 					show: false,
+		// 					color: '#ffff'
+		// 				},
+		// 				show: true,
+		// 				color: '#fff',
+		// 				fontSize: 11
+		// 			},
+		// 			roam: false, //是否允许缩放
+		// 			itemStyle: {
+		// 				normal: {
+		// 					color: 'rgba(80,133, 191, 0.7)', //省份地图背景色
+		// 					borderColor: '#a5a4af', //省市边界线00fcff 516a89
+		// 					borderWidth: 1
+		// 				},
+		// 				emphasis: {
+		// 					color: 'rgba(80,133, 191, 1)' //悬浮背景
+		// 				}
+		// 			}
+		// 		},
+		// 		series: seriesMap
+		// 	};
+
+		// 	mapChart.clear();
+		// 	mapChart.setOption(mapOption);
+		// 	$(window).on('resize', function () {
+		// 		mapChart.resize();
+		// 	});
+		// })
 
 	} else {
 		$('#tipBox').show();

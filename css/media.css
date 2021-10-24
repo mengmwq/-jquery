@@ -1,68 +1,189 @@
-@media screen and (min-width:1921px){
+@media screen and (min-width:1921px) {
 	/* 高分辨的大屏 */
-	.map_box{
+	.map_box {
 		height: 450px;
 	}
-}
-@media screen and (min-width:1680px) and (max-width:1900px){
-	.totalMoney .number-animate{
-		font-size: 50px;
-	}
-	.totalMoney .number-animate-dom{
-		width: 60px;
-	}
-	.money{
-		width: 60px;
-	}
-}
-@media screen and (min-width:1600px) and (max-width:1679px){
-	.totalMoney .number-animate{
-		font-size: 40px;
-	}
-	.totalMoney .number-animate-dom{
-		width: 50px;
-	}
-	.money{
-		width: 50px;
+	body {
+		background: #000d4a url(../images/dapingbg1.jpg) center top;
+		background-size: cover;
+		color: #666;
+		overflow: hidden;
+		
 	}
 }
 
-@media screen and (min-width:1440px) and (max-width:1599px){
-	.totalMoney .number-animate{
+@media screen and (min-width:1680px) and (max-width:1900px) {
+	body {
+		background: #000d4a url(../images/dapingbg1.jpg) center top;
+		background-size: cover;
+		color: #666;
+		overflow: hidden;
+		
+	}
+	.totalMoney .number-animate {
+		font-size: 50px;
+	}
+	.totalMoney .number-animate-dom {
+		width: 60px;
+	}
+	.money {
+		width: 60px;
+	}
+	
+}
+
+@media screen and (min-width:1600px) and (max-width:1679px) {
+	body {
+		background: #000d4a url(../images/dapingbg1.jpg) center top;
+		background-size: cover;
+		color: #666;
+		overflow: hidden;
+		
+	}
+	.totalMoney .number-animate {
+		font-size: 40px;
+	}
+	.totalMoney .number-animate-dom {
+		width: 50px;
+	}
+	.money {
+		width: 50px;
+	}
+	.map_box {
+		height: 80px;
+	}
+}
+
+@media screen and (min-width:1440px) and (max-width:1599px) {
+	.totalMoney .number-animate {
 		font-size: 38px;
 	}
-	.totalMoney .number-animate-dom{
+	.totalMoney .number-animate-dom {
 		width: 48px;
 	}
-	.money{
+	.money {
 		width: 48px;
+	}
+	.map_box {
+		height: 80px!important;
 	}
 	/*笔记本最佳分辨率1440*900 笔记本的实际高度只有770px;*/
 }
 
-@media screen and (min-width:1366px) and (max-width:1439px){
-    .totalMoney .number-animate{
-    	font-size: 38px;
-    }
-    .totalMoney .number-animate-dom{
-    	width: 48px;
-    }
-    .money{
-    	width: 48px;
-    }
+@media screen and (min-width:1366px) and (max-width:1439px) {
+	.totalMoney .number-animate {
+		font-size: 38px;
+	}
+	.totalMoney .number-animate-dom {
+		width: 48px;
+	}
+	.money {
+		width: 48px;
+	}
+	.map_box {
+		height: 80px!important;
+	}
 	/*笔记本最佳分辨率1366*768 笔记本的实际高度只有630px;*/
 }
 
-@media screen and (max-width: 1365px){
-	.totalMoney .number-animate{
+@media screen and (max-width: 1365px) {
+	.totalMoney .number-animate {
 		font-size: 35px;
 	}
-	.totalMoney .number-animate-dom{
+	.totalMoney .number-animate-dom {
 		width: 45px;
 	}
-	.money{
+	.money {
 		width: 45px;
+	}
+	.map_box {
+		height: 80px!important;
 	}
 	/*笔记本最佳分辨率1280*800  笔记本的实际高度只有670px;*/
 }
 
+@media screen and (min-width:320px) and (max-width:970px) {
+	html {
+		font-size: 94%!important;
+		max-width: 100%!important;
+		/* 15.04÷16=94% */
+	}
+	body {
+		background: #000d4a url(../images/dapingbg1.jpg) center top;
+		background-size: cover;
+		color: #666;
+		
+	}
+	.head h1 {
+		color: #c5ccff;
+		text-align: center;
+		font-size: 28px;
+		height: 0.76rem;
+		letter-spacing: 5px;
+		padding-top: 0.05rem;
+		line-height: 0.6rem;
+		height: 50px;
+		line-height: 50px;
+		color: #c5ccff;
+		text-align: center;
+		font-family: cursive;
+	}
+	.weather {
+		position: absolute;
+		/* right: -15px; */
+		top: 50px;
+		line-height: .75rem;
+	}
+	.content {
+		max-width: 100%;
+		overflow: hidden!important;
+		display: block;
+		box-sizing: border-box;
+		margin: 0!important;
+	}
+	.cont_center {
+		margin: 0;
+	}
+	.weather span {
+		color: rgba(255, 255, 255, .7);
+		font-size: 18px;
+		padding-right: 5rem;
+	}
+	.circle .one {
+		display: block!important;
+		margin-top: 40px;
+	}
+	.circle .one .order_c {
+		display: flex;
+		margin-top: 15px;
+	}
+	.hidden {
+		display: none;
+	}
+	.map_box {
+		height: 80px;
+	}
+	.totalMoney .number-animate {
+		font-size: 18px;
+	}
+	.totalMoney .number-animate-dom {
+		width: 18px;
+	}
+	.money {
+		width: 18px;
+	}
+	.totalMoney .number-animate-dom{
+	/* width: 65px;
+	margin-left: 10px; */
+	background-color: rgba(25, 190, 141, 0);
+}
+ .number-animate .number-animate-dot  span{
+	line-height:4.1
+
+
+}
+.shownubmber{
+	display: block!important;
+}
+.weather span{color:rgba(255,255,255,.7); font-size: 18px; padding-right: 1rem!important;}
+}
